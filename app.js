@@ -148,7 +148,7 @@ function getAccount(accountName, masterPassword) {
 	return matchedAccount;
 }
 
-
+var accounts = getAccounts(argv.masterPassword);
 // Handling of user commands
 if (command === 'create') {
 	try {
@@ -189,12 +189,14 @@ if (command === 'create') {
 			account.password = argv.password;
 		}
 		console.log(account);
-		var updatedAccounts = getAccounts(argv.masterPassword)
-		overwriteAccount(account, updatedAccounts);
-		saveAccounts(updatedAccounts, argv.masterPassword);
+		overwriteAccount(account, accounts);
+		saveAccounts(accounts, argv.masterPassword);
 	} catch (e) {
 		console.log('Unable to edit account');
 	}
 } else if (command === 'list') {
-	console.log(argv);
+	console.log('--ACCOUNTS--');
+	accounts.forEach(function (account) {
+		console.log(account.name);
+	})
 }
