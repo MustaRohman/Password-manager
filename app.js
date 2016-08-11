@@ -4,7 +4,7 @@ var crypto = require('crypto-js');
 var storage = require('node-persist');
 storage.initSync();
 
-
+//Configuring user commands
 var argv = require('yargs')
 	.command('create', 'Create an account', function (yargs) {
 		yargs.options({
@@ -73,7 +73,17 @@ var argv = require('yargs')
 			masterPassword: {
 				demand: true,
 				alias: 'm',
-				description: 'Your master password here',
+				description: 'Your master password ',
+				type: 'string'
+			}
+		}).help('help');
+	})
+	.command('list', 'List the web accounts stored', function (yargs) {
+		yargs.options({
+			masterPassword: {
+				demand: true,
+				alias: 'm',
+				description: 'Your master password',
 				type: 'string'
 			}
 		}).help('help');
@@ -139,6 +149,7 @@ function getAccount(accountName, masterPassword) {
 }
 
 
+// Handling of user commands
 if (command === 'create') {
 	try {
 		console.log('Adding account...')
@@ -168,7 +179,6 @@ if (command === 'create') {
 		
 } else if (command === 'edit') {
 	try {
-		console.log(argv);
 		var account = getAccount(argv.name, argv.masterPassword);
 
 		if (typeof argv.username !== 'undefined') {
@@ -185,4 +195,6 @@ if (command === 'create') {
 	} catch (e) {
 		console.log('Unable to edit account');
 	}
+} else if (command === 'list') {
+	console.log(argv);
 }
