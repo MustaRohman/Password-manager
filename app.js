@@ -106,6 +106,16 @@ function saveAccounts(accounts, masterPassword) {
 	// return accounts
 }
 
+function overwriteAccount(newAccount, accounts) {
+	for (var i = accounts.length - 1; i >= 0; i--) {
+		if (accounts[i].name === newAccount.name) {
+			accounts[i] = newAccount;
+		}
+		console.log('Account overwritten!');
+		return;
+	}
+}
+
 function createAccount(account, masterPassword) {
 	//if (masterPassword is correct)
 
@@ -133,10 +143,11 @@ if (command === 'create') {
 	try {
 		console.log('Adding account...')
 		createAccount({
-		name: argv.name,
-		username: argv.username,
-		password: argv.password
+			name: argv.name,
+			username: argv.username,
+			password: argv.password
 		}, argv.masterPassword)
+		console.log(argv.name + ' account created!');
 	} catch (e) {
 		console.log('Unable to create account!');
 	}
@@ -158,7 +169,20 @@ if (command === 'create') {
 } else if (command === 'edit') {
 	try {
 		console.log(argv);
+		var account = getAccount(argv.name, argv.masterPassword);
+
+		if (typeof argv.username !== 'undefined') {
+			account.username = argv.username;
+		}
+
+		if (typeof argv.password !== 'undefined') {
+			account.password = argv.password;
+		}
+		console.log(account);
+		var updatedAccounts = getAccounts(argv.masterPassword)
+		overwriteAccount(account, updatedAccounts);
+		saveAccounts(updatedAccounts, argv.masterPassword);
 	} catch (e) {
-		console.log('Unable to fetch account!')
+		console.log(e);
 	}
 }
