@@ -183,6 +183,6 @@ if (command === 'create') {
 		overwriteAccount(account, updatedAccounts);
 		saveAccounts(updatedAccounts, argv.masterPassword);
 	} catch (e) {
-		console.log(e);
+		console.log('Unable to edit account');
 	}
 }
